@@ -2,3 +2,9 @@ env/*
 Clase.class
 *.pyc
 db.sqlite3
+main
+base
+maincpp
+mainc
+Main.class
+
