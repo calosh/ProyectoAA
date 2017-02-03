@@ -1,0 +1,167 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+      <script src="{% static 'js/bootstrap.js' %}"></script>
+      <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+
+      <script src="{% static 'lib/codemirror.js' %}"></script>
+      <link rel="stylesheet" href="{% static 'lib/codemirror.css' %}">
+      <link rel="stylesheet" href="{% static 'theme/eclipse.css' %}">
+      <script src="{% static 'mode/clike/clike.js' %}"></script>
+
+      <script src="{% static 'addon/hint/css-hint.js' %}"></script>
+      <script src="{% static 'addon/hint/show-hint.js' %}"></script>
+      <link rel="stylesheet" href="{% static 'addon/hint/show-hint.css' %}">
+      
+    
+      <style type="text/css">
+          body{
+              background-color: #eee;
+          }
+      </style>
+
+      <title></title>
+  </head>
+  <body>
+
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">Mi Editor</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <form class="navbar-form navbar-right">
+            {% if user.is_authenticated %}
+            <a class="btn btn-default" href="#" role="button">Usuario: {{ user.username }}</a>
+            <a href="{% url 'codigos_usuario' user.id  %}" class="btn btn-success btn-lg">Mis Codigos</a>
+            <a href="{% url "salir" %}" class="btn btn-danger btn-lg">Salir</a>
+            {% else %}
+            <a href="{% url 'register' %}" class="btn btn-success btn-lg">Registarse</a>
+            <a href="{% url 'login' %}" class="btn btn-success btn-lg">Login</a>
+            {% endif %}
+          </form> 
+        </div><!--/.navbar-collapse -->
+      </div>
+    </nav>
+    
+    <hr>
+    
+    <div class="container">
+        <div class="row">
+          <div class="col-lg-10 col-md-10">
+          {% block container %}
+            <h1 class="page-header">Mi Editor</h1>            
+                <form method="post">{% csrf_token %}
+
+                    {{ form.codigo }}
+                    <br>
+                    {{ form.tipo }}
+
+                    <br>
+                    <div class="row">
+                      <div class="col-lg-4 col-md-4">
+                        <button type="submmit" class="btn btn-primary btn-lg" name="ejecutar">Ejecutar <span class="glyphicon glyphicon-play"></span></button>
+                      </div>
+
+                      {% if user.is_authenticated %}
+                            <div class="col-lg-5 col-md-5">
+                              {{form.nombre}}
+                            </div>
+
+                            <div class="col-lg-1 col-md-1">
+                              <button type="submmit" class="btn btn-success btn-lg" name="guardar">Guardar <span class="glyphicon glyphicon-floppy-disk"></span></button>
+                          </div>
+                      {% else %}
+                        
+                      {% endif %}
+                    </div>
+
+                </form>                  
+            
+            <h2 class="sub-header">Salida:</h2>
+            
+            <div id="output" name="output" class="well">
+                <p><span class="glyphicon glyphicon-console"></span></p>
+                
+                {% if output %}
+                <samp>{{ output | safe }}</samp>
+                {% else %}
+                {{rc}}
+                {% endif %}
+            </div>
+           {% endblock container %}
+          </div>
+        </div>         
+      <hr>
+
+      <footer>
+        <p>&copy; 2017- Universidad Técnica Particular de Loja</p>
+      </footer>
+
+    </div> <!-- /container -->
+
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
+    <script src="{% static "js/bootstrap.min.js" %}"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
+
+
+    <script type="text/javascript">
+    $(document).ready(function()
+    {
+        $("input[name=lenguaje]").click(function () {    
+            var valor = $(this).val();
+            if(valor == 'java'){
+                var html = `{{codigosI.0|safe}}`;
+                editor.setValue(html);
+                editor.setOption("mode", "text/x-java");   
+                }
+
+            if(valor == 'python'){
+                var html = `{{codigosI.1|safe}}`;
+                editor.setValue(html);
+                editor.setOption("mode", "text/x-python");
+                }
+
+            if(valor == 'c'){
+                var html = `{{codigosI.2|safe}}`;
+                editor.setValue(html);
+                editor.setOption("mode", "text/x-csrc");
+                }
+
+            if(valor == 'cpp'){
+                var html = `{{codigosI.3|safe}}`;
+                editor.setValue(html);
+                editor.setOption("mode", "text/x-c++src");
+                }
+
+        });
+    });
+    </script>
+
+
+    <script type="text/javascript">
+        var editor = CodeMirror.fromTextArea(document.getElementById('codeeditor'),{
+            lineNumbers: true,
+            mode: "text/x-java",
+            theme : "eclipse",
+            tabSize: 4,
+            extraKeys: {"Ctrl-Space": "autocomplete"}
+            
+        });
+    </script>
+
+  </body>
+</html>

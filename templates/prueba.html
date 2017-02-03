@@ -1,0 +1,28 @@
+<div class="button">
+    <input type="button" id="lesen" value="Lesen!" />
+</div>
+
+<div class="text">
+    Lorem Ipsum <br />
+</div>
+
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+<script type="text/javascript">
+
+
+var a= 'http://stackoverflow.com/questions/6470567/jquery-load-txt-file-and-insert-into-div'
+    
+$(document).ready(function() {
+    $("#lesen").click(function() {
+        $.ajax({
+            url : "input.txt",
+            dataType: "text",
+            success : function (data) {
+                $(".text").html(data);
+            }
+        });
+    });
+}); 
+</script>

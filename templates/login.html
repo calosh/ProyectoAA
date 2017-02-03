@@ -1,0 +1,26 @@
+{% extends 'index.html' %}
+{% load static %}
+{% load bootstrap %}
+
+
+{% block container %}
+<link rel="stylesheet" href="{% static 'css/signin.css' %}">
+
+    {% if not user.is_authenticated %}
+    
+    <form method="POST" class="form-signin" role='form'>
+    <h2>Ingreso:</h2>
+    {% csrf_token %}
+        {{ form | bootstrap }}
+
+        <input type="submit" name="" value="Login" class="btn btn-lg btn-primary btn-block">
+    </form>
+    {% else %}
+        <h1>Bienbenido {{ user.username }}</h1>
+        <a href="/salir">Salir</a>
+    {% endif %}
+
+{% endblock container %}
+
+</body>
+</html>

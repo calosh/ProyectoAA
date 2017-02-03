@@ -1,0 +1,10 @@
+.container{
+     background-color: #aaa;
+}
+
+.full-width{
+     width : 100%;
+     color : #fff;
+     background-color:#400000;
+     padding: 20px;
+}

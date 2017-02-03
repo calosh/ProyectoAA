@@ -1,0 +1,4 @@
+env/*
+Clase.class
+*.pyc
+db.sqlite3

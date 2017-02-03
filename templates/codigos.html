@@ -1,0 +1,28 @@
+{% extends "index.html" %}
+
+
+{% block container %}
+    <h1 class="page-header">Mis Codigos</h1> 
+
+    <table class="table table-striped">
+        <tr>
+            <th>id</th>
+            <th>nombre</th>
+            <th>Lenguaje</th>
+            <th>Actualizar/Eliminar</th>
+        </tr>
+
+        {% for x in codigos %}
+            <tr>
+                <td>{{x.id}}</td>
+                <td>{{x.nombre}}</td>
+                <td>{{x.tipo}}</td>
+                <td>
+                    <a class="btn btn-success" href="{% url 'editar' x.id %}" role="button">actualizar</a>/
+                    <a class="btn btn-danger" href="{% url 'borrar' x.id %}" role="button">eliminar</a></td>
+            </tr>
+        {% endfor %}
+        
+    </table>        
+    <a class="btn btn-success" href="{% url 'index' %}" role="button">Agregar</a>/
+{% endblock container %}

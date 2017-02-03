@@ -1,0 +1,17 @@
+{% extends 'index.html' %}
+{% load static %}
+{% load bootstrap %}
+
+
+{% block container %}
+<link rel="stylesheet" href="{% static 'css/signin.css' %}">
+    <form method="POST" class="form-signin" role='form'>
+    <h2>Registro: </h2>
+        {% csrf_token %}
+         {{ form | bootstrap }}
+
+        <input type="submit" name="" value="Registro" class="btn btn-lg btn-primary btn-block">
+    </form>
+{% endblock container %}
+</body>
+</html>

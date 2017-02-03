@@ -1,0 +1,3 @@
+Ingrese iun numero
+Ingrese otro numero
+Java program received: 5 :5
